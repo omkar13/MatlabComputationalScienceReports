@@ -1,0 +1,29 @@
+
+global G M R ;
+G = 6.67e-11; 
+M = 6e24;
+R = 6.4e6;
+
+g_approx = G*M*M/R;
+
+initial_pos_x = 0;
+initial_pos_y = 0;
+initial_vel_x = 1;
+initial_vel_y = 0;
+
+
+start_time = 0;
+end_time = 2*initial_vel_x / g_approx ; 
+dt = 1e-2;
+
+u0 = zeros(2);
+
+u0(0) = initial_pos_x;
+u0(1) = initial_vel_x;
+u0(2) = initial_pos_y;
+u0(3) = initial_vel_y;
+
+[ t, u ] = ode45(@rhs , [start_time , dt , end_time], u0);
+
+figure
+quiver(u(:, 0) , u(: , 2) , u(: , 1) , u(: , 3));

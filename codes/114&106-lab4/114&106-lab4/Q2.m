@@ -1,0 +1,75 @@
+clear all;
+close all;
+
+global q m qom g;
+global Bx By Bz;
+
+q = -1.6e-19;      
+m = 9.1e-31;
+
+g=9.8;
+qom = (q/m) ; 
+
+Bx = 0;
+By = 0;
+Bz = 5e-5;
+
+temp = 1000 ; %in kelvin
+k = 1.38e-23 ; 
+
+initial_vel = sqrt(k*temp/m);
+
+starttime = 0;
+totaltime = 1e-4;
+dt = (totaltime-starttime) / 100000;
+
+u0 = zeros (6 , 1);
+
+u0(1) = 0 ;          %x
+u0(2) = 0 ;          %y
+u0(3) = 0 ;          %z
+
+u0(4) = initial_vel ;          %vx
+u0(5) = 0 ;          %vy
+u0(6) = 0 ;          %vz
+
+options=odeset('RelTol',1e-5);
+[t,u] = ode45(@Cyclotron , [starttime : dt : totaltime] , u0, options) ; 
+
+% u contains the position vectors and the velocity vectors at each point.
+
+count = 0;  % counts the number of times (0,0,0) is reached. we will break at 2
+
+index = 1;
+
+%this is for calculating the time period and frequency
+while count<2
+    if sqrt((u0(1)-u(index,1))*(u0(1)-u(index,1)) + (u0(2)-u(index,2))*(u0(2)-u(index,2)) + (u0(3)-u(index,3))*(u0(3)-u(index,3))) <= 0.0006
+        count = count + 1;        
+    end    
+    index = index + 1;
+end
+
+
+% here index applies to time array also
+
+frequency_computattional = (1 / t(index))  
+frequency_analytical = (q * Bz)/( 2 * pi * m)
+% now we have the time period . so let us run for half the time period and calculate the distance from y axis . that will be the diameter 
+
+index_for_half_time = round(index / 2);
+
+diameter = sqrt( power( u0(1) - u(index_for_half_time,1) , 2 ) + power( u0(2) - u(index_for_half_time,2) , 2 ) + power( u0(3) - u(index_for_half_time,3) , 2 ) );
+
+radius_computattional = diameter /2 
+
+%analytical  solution
+
+radius_analytical  = (m * initial_vel)/(q * Bz)
+
+
+plot3( u(:,1) , u(:,2) , u(:,3) )
+xlabel('X Axis');
+ylabel('Y Axis');
+zlabel('Z Axis');
+title('electron released with velocity perpendicular to B')

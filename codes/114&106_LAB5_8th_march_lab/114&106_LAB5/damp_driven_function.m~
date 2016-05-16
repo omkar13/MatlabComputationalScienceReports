@@ -1,0 +1,27 @@
+
+function F = damp_driven_function( t , u )
+%DAMPINGFUNCTION Summary of this function goes here
+
+%{
+u(1) -> theta     
+u(2) -> omega
+
+F(1) -> omega
+F(2) -> derivative of omega
+%}
+
+global C mass l g beta Fd driver_freq max_ampl;
+
+F = zeros(length(u) , 1);
+
+F(1) = u(2);
+F(2) = -(2*beta)*u(2) - (g/l)*u(1) + (Fd/(mass*l))*sin(driver_freq*t);
+
+if(t>50)        %because the oscillations stabilise after this time
+    if(u(1) > max_ampl)
+        max_ampl = u(1);    
+    end
+    
+end
+
+end

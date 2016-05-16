@@ -1,0 +1,16 @@
+function F = dampingFunction( t , u )
+%DAMPINGFUNCTION Summary of this function goes here
+
+%{
+u(1) -> theta     
+u(2) -> omega
+
+F(1) -> omega
+F(2) -> derivative of omega
+%}
+
+F = length();
+
+
+end
+

@@ -1,0 +1,26 @@
+clear all;
+clc;
+total_time = 100;
+init_x = 0;
+dt = 0.1;
+niter = total_time/dt;
+vel = 50;
+
+x = zeros(niter,1);
+x_exact = zeros(niter,1);
+
+time = zeros(niter,1);
+
+x(1) = init_x;
+x_
+time(1) = 0;
+
+for step = 1 : niter-1 
+    x(step + 1) = x(step) + vel*dt;
+    time(step + 1) = time(step) + dt;
+end
+
+plot(time,x)      %computational result
+
+
+

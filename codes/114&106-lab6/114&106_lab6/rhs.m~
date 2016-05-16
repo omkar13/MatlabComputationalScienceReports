@@ -1,0 +1,18 @@
+function  F = rhs( u , t )
+% This function is used to solve the equation given.
+
+% u(0) = x
+% u(1) = vx
+% F(0) = dx/dt
+% F(1) = dvx/dt
+
+global G M R ;
+
+F = zeros(2);
+
+F(0) = u(1);
+F(1) = -G*M/(power(u(0) + R , 2) ; 
+
+
+end
+

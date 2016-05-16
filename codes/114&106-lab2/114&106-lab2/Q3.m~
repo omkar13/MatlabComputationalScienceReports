@@ -1,0 +1,32 @@
+clear all;
+clc;
+total_time = 100;
+init_n = 200;
+dt = 1e-4;
+niter = total_time/dt;
+a = 10;
+b = 3;
+
+N = zeros(niter,1);
+N_exact = zeros(niter,1);
+
+time = zeros(niter,1);
+
+N(1) = init_n;
+N_exact(1) = init_n;
+time(1) = 0;
+
+ 
+
+for step = 1 : niter-1 
+    N(step + 1) = N(step) +  (a*N(step) - b*N(step)*N(step))*dt ;
+    time(step + 1) = time(step) + dt;
+    
+end
+
+
+
+figure(1);
+plot(time,N)      %computational result
+ %figure(2);
+ %plot(time, v_exact)
